@@ -2,6 +2,12 @@
 
 Image Cropper is a small, dependency-free image cropper that runs entirely in the browser. It lets you create crop results from an image and export them without uploading the original file anywhere.
 
+## Interface preview
+
+![Empty state](assets/interface-empty.png)
+
+![Crop editor and export results](assets/interface-editor.png)
+
 ## Features
 
 - Open common image formats: JPG, PNG, WEBP, and GIF
@@ -36,6 +42,12 @@ Images are never sent to a server by this tool. The selected file is read locall
 # Image Cropper — 图片裁切工具
 
 Image Cropper 是一个轻量、无依赖的浏览器图片裁切工具。它可以从一张图片中选取裁切区域并导出多个结果，原始图片不会上传到任何服务器。
+
+## 界面预览
+
+![初始界面](assets/interface-empty.png)
+
+![裁切编辑器和导出结果](assets/interface-editor.png)
 
 ## 功能
 
