@@ -48,6 +48,10 @@ body{background:#101210;color:#f3f3eb}.top{border-color:#30332e}.local,.bar p,.f
 .editor .settings{transition:transform .2s ease;padding-top:50px}.panel-toggle{position:absolute;top:10px;right:10px;width:28px;height:28px;border:1px solid #4a4e45;background:#242117;color:#f4d34f;font:14px monospace;line-height:1;cursor:pointer;z-index:2}.panel-toggle:hover{border-color:#f4d34f;background:#3a3518}
 @media(max-width:760px){.editor .settings.panel-collapsed{transform:translateX(calc(100% - 44px));overflow:hidden}.editor .settings.panel-collapsed .panel-toggle{right:auto;left:8px}}
 </style>
+<style>
+.editor .settings{padding-left:48px}.panel-toggle{top:0;right:auto;bottom:0;left:0;width:30px;height:auto;border:0;border-right:1px solid #4a4e45;border-radius:0;display:flex;align-items:center;justify-content:center;background:#242117}.panel-toggle:hover{background:#3a3518}.coordinate-title{display:flex;align-items:center;justify-content:space-between}.coordinate-toggle{width:24px;height:24px;border:1px solid #4a4e45;background:#242117;color:#f4d34f;font:14px monospace;cursor:pointer}.coordinate-toggle:hover{border-color:#f4d34f;background:#3a3518}.coordinate-setting.coordinates-collapsed .coordinate-field{display:none}.coordinate-setting.coordinates-collapsed{padding-bottom:16px}
+</style>
+<style>.editor .settings.panel-collapsed{transform:translateX(calc(100% - 44px));overflow:hidden}.editor .settings.panel-collapsed .panel-toggle{left:0;right:auto}</style>
 </head>
 <body>
 <main class="shell">
@@ -95,6 +99,12 @@ function setLang(){let t=english?copy.en:copy.zh;$('#localText').textContent=t.l
 </script>
 <script>
 (()=>{const settings=document.querySelector('.settings');if(!settings)return;const toggle=document.createElement('button');toggle.className='panel-toggle';toggle.type='button';settings.prepend(toggle);let collapsed=false;try{collapsed=localStorage.getItem('image-cropper-panel-collapsed')==='true'}catch{}const sync=()=>{settings.classList.toggle('panel-collapsed',collapsed);toggle.textContent=collapsed?'←':'→';toggle.setAttribute('aria-label',collapsed?'Expand controls':'Collapse controls')};toggle.onclick=()=>{collapsed=!collapsed;try{localStorage.setItem('image-cropper-panel-collapsed',String(collapsed))}catch{}sync()};sync()})();
+</script>
+<script>
+(()=>{const panel=document.querySelector('.coordinate-setting');if(!panel)return;const title=panel.querySelector('.coordinate-title'),toggle=document.createElement('button');toggle.className='coordinate-toggle';toggle.type='button';title.appendChild(toggle);let expanded=false;try{expanded=localStorage.getItem('image-cropper-coordinates-expanded')==='true'}catch{}const sync=()=>{panel.classList.toggle('coordinates-collapsed',!expanded);toggle.textContent=expanded?'−':'+';toggle.setAttribute('aria-label',expanded?'Collapse crop coordinates':'Expand crop coordinates')};toggle.onclick=()=>{expanded=!expanded;try{localStorage.setItem('image-cropper-coordinates-expanded',String(expanded))}catch{}sync()};sync()})();
+</script>
+<script>
+(()=>{const panel=document.querySelector('.coordinate-setting'),title=panel?.querySelector('.coordinate-title'),toggle=panel?.querySelector('.coordinate-toggle'),lang=document.querySelector('#lang');if(title&&toggle&&lang)lang.addEventListener('click',()=>{if(!title.contains(toggle))title.appendChild(toggle)})})();
 </script>
 </body>
 </html>
