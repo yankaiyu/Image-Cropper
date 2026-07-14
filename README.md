@@ -4,9 +4,7 @@ Image Cropper is a small, dependency-free image cropper that runs entirely in th
 
 ## Interface preview
 
-![Empty state](assets/interface-empty.png)
-
-![Crop editor and export results](assets/interface-editor.png)
+![Image Cropper interface](assets/interface.png)
 
 ## Features
 
@@ -45,9 +43,7 @@ Image Cropper 是一个轻量、无依赖的浏览器图片裁切工具。它可
 
 ## 界面预览
 
-![初始界面](assets/interface-empty.png)
-
-![裁切编辑器和导出结果](assets/interface-editor.png)
+![Image Cropper 界面](assets/interface.png)
 
 ## 功能
 
