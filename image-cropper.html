@@ -27,6 +27,22 @@ body{background:#101210;color:#f3f3eb}.top{border-color:#30332e}.local,.bar p,.f
 <style>
 .crop .edge.top{border-bottom:0!important;display:block}
 </style>
+<style>
+.result-item div{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+.result-item div>span:last-child{display:flex;align-items:center;justify-content:space-between}
+.editor .primary{position:fixed;right:24px;bottom:24px;width:auto;min-width:220px;z-index:20;box-shadow:0 8px 24px #0008}
+@media(max-width:760px){.editor .primary{right:20px;bottom:20px;min-width:0;max-width:calc(100vw - 40px)}}
+.editor{display:block;position:relative}
+.shell{max-width:1440px}
+@media(min-width:761px){.editor{padding-right:328px}.editor .canvas{min-width:0}}
+.editor .settings{position:fixed;top:84px;right:24px;width:280px;max-height:calc(100vh - 108px);overflow:auto;z-index:20;border:1px solid #30332e;background:#171917;box-shadow:0 10px 28px #0009}
+.editor .settings .primary{position:static;width:100%;min-width:0;box-shadow:none}
+.editor .settings .reset,.editor .settings .change{display:flex;align-items:center;width:100%;min-height:40px;margin-top:8px;padding:12px;border:1px solid #4a4e45;background:#242117;color:#f4d34f;font-size:12px;font-weight:bold;text-align:left;cursor:pointer}
+.editor .settings .reset:hover,.editor .settings .change:hover{border-color:#f4d34f;background:#3a3518}
+.editor .settings #make{justify-content:flex-start}.editor .settings #make span{display:none}.editor .settings #make::before{content:'↓'}.editor .settings #change::before{content:'＋'}.editor .settings #reset::before{content:'↺'}.editor .settings #make::before,.editor .settings #reset::before,.editor .settings #change::before{display:inline-flex;align-items:center;justify-content:center;width:16px;min-width:16px;margin-right:8px}
+.editor .settings .zoom-setting{display:flex;align-items:center;justify-content:flex-start;padding-bottom:16px}.editor .settings .zoom-controls{width:100%;justify-content:space-between}
+@media(max-width:760px){.editor .settings{top:auto;right:20px;bottom:20px;left:20px;width:auto;max-height:calc(100vh - 40px)}.editor .settings .primary{position:static}}
+</style>
 </head>
 <body>
 <main class="shell">
@@ -62,6 +78,9 @@ function setLang(){let t=english?copy.en:copy.zh;$('#localText').textContent=t.l
 </script>
 <script>
 (()=>{const q=s=>document.querySelector(s),sync=()=>{const en=q('#lang').textContent==='中文';q('#canvasHint').textContent=en?'Drag on the image to select an area':'在图片上拖拽以选择区域';q('#reset').textContent=en?'↺ Clear selection':'↺ 清除选择';q('#summaryTitle').textContent=en?'Select an area to export':'选择区域后导出';q('#summaryText').textContent=en?'Drag on the image to create a crop':'在图片上拖拽创建裁切区域';q('#snapLabel').textContent=en?'Snap to center':'吸附到中心';q('#snapHint').textContent=en?'Show guides and align near center':'接近中心时显示辅助线并吸附'};sync();q('#lang').addEventListener('click',sync)})();
+</script>
+<script>
+(()=>{const settings=document.querySelector('.settings'),reset=document.querySelector('#reset'),change=document.querySelector('#change'),lang=document.querySelector('#lang'),zoomControls=document.querySelector('.zoom-controls'),formatSetting=document.querySelector('#formats')?.closest('.setting');if(settings&&reset&&change){settings.insertBefore(reset,change);const syncReset=()=>{reset.textContent=lang&&lang.textContent==='中文'?'Clear selection':'清除选择'};syncReset();if(lang)lang.addEventListener('click',syncReset)}if(settings&&zoomControls&&formatSetting){const zoomSetting=document.createElement('div');zoomSetting.className='setting zoom-setting';zoomSetting.appendChild(zoomControls);settings.insertBefore(zoomSetting,formatSetting)}})();
 </script>
 </body>
 </html>
