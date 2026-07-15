@@ -52,6 +52,25 @@ body{background:#101210;color:#f3f3eb}.top{border-color:#30332e}.local,.bar p,.f
 .editor .settings{padding-left:48px}.panel-toggle{top:0;right:auto;bottom:0;left:0;width:30px;height:auto;border:0;border-right:1px solid #4a4e45;border-radius:0;display:flex;align-items:center;justify-content:center;background:#242117}.panel-toggle:hover{background:#3a3518}.coordinate-title{display:flex;align-items:center;justify-content:space-between}.coordinate-toggle{width:24px;height:24px;border:1px solid #4a4e45;background:#242117;color:#f4d34f;font:14px monospace;cursor:pointer}.coordinate-toggle:hover{border-color:#f4d34f;background:#3a3518}.coordinate-setting.coordinates-collapsed .coordinate-field{display:none}.coordinate-setting.coordinates-collapsed{padding-bottom:16px}
 </style>
 <style>.editor .settings.panel-collapsed{transform:translateX(calc(100% - 44px));overflow:hidden}.editor .settings.panel-collapsed .panel-toggle{left:0;right:auto}</style>
+<style>
+@media(max-width:760px){
+  .editor{padding-bottom:44px}
+  .editor .settings{top:auto;right:0;bottom:0;left:0;width:100%;max-height:70vh;padding:44px 20px 20px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;transform:translateY(0)}
+  .editor .settings.panel-collapsed{transform:translateY(calc(100% - 44px));overflow:hidden}
+  .editor .settings .panel-toggle,.editor .settings.panel-collapsed .panel-toggle{top:0;right:0;bottom:auto;left:0;width:100%;height:36px;border:0;border-bottom:1px solid #4a4e45}
+}
+</style>
+<style>
+.editor .settings #make::before{content:'✂'}
+.editor .settings .summary{display:none}
+@media(max-width:760px){
+  .editor .settings .panel-toggle,.editor .settings.panel-collapsed .panel-toggle{justify-content:center;padding:0}
+  .editor .settings.panel-collapsed .panel-toggle{padding-right:86px}
+  .editor .settings.panel-collapsed #make{position:absolute;top:4px;right:8px;left:auto;width:78px;min-width:0;height:28px;margin:0;padding:5px 8px;z-index:3;justify-content:center;font-size:0}
+  .editor .settings.panel-collapsed #make::before{font-size:12px;margin-right:5px}
+  .editor .settings.panel-collapsed #make::after{content:'Crop';font-size:11px;font-weight:bold}
+}
+</style>
 </head>
 <body>
 <main class="shell">
@@ -100,7 +119,7 @@ function setLang(){let t=english?copy.en:copy.zh;$('#localText').textContent=t.l
 (()=>{const stage=document.querySelector('#stage'),crop=document.querySelector('#crop'),source=document.querySelector('#source'),snap=document.querySelector('#snapToggle');const fields=Object.fromEntries([...document.querySelectorAll('[data-coordinate]')].map(input=>[input.dataset.coordinate,input]));if(!stage||!crop||!source||Object.keys(fields).length!==4)return;const read=()=>{const r=stage.getBoundingClientRect(),w=source.naturalWidth||1,h=source.naturalHeight||1;return{x:(parseFloat(crop.style.left)||0)/100*w,y:(parseFloat(crop.style.top)||0)/100*h,width:(parseFloat(crop.style.width)||0)/100*w,height:(parseFloat(crop.style.height)||0)/100*h,r,w,h}};const point=(v,x,y)=>({x:v.r.left+x/v.w*v.r.width,y:v.r.top+y/v.h*v.r.height});const emit=(target,type,p)=>target.dispatchEvent(new MouseEvent(type,{bubbles:true,cancelable:true,clientX:p.x,clientY:p.y,button:0,buttons:type==='mouseup'?0:1}));const dragTo=(target,from,to)=>{emit(target,'mousedown',from);emit(document,'mousemove',to);emit(document,'mouseup',to)};const applyDimension=key=>{if(crop.classList.contains('hidden'))return;const v=read(),W=source.naturalWidth||1,H=source.naturalHeight||1,n=Math.max(0,Number(fields[key].value)||0),target={...v};if(key==='width')target.width=Math.max(1,Math.min(n,W-v.x));if(key==='height')target.height=Math.max(1,Math.min(n,H-v.y));if(key==='x')target.x=Math.max(0,Math.min(n,W-v.width));if(key==='y')target.y=Math.max(0,Math.min(n,H-v.height));const snapWasOn=snap?.classList.contains('on');if(snapWasOn)snap.click();try{if(key==='width'){const edge=stage.querySelector('.edge.right');if(edge)dragTo(edge,point(v,v.x+v.width,v.y+v.height/2),point(v,v.x+target.width,v.y+v.height/2))}else if(key==='height'){const edge=stage.querySelector('.edge.bottom');if(edge)dragTo(edge,point(v,v.x+v.width/2,v.y+v.height),point(v,v.x+v.width/2,v.y+target.height))}else if(key==='x'||key==='y'){dragTo(crop,point(v,v.x+v.width/2,v.y+v.height/2),point(v,target.x+target.width/2,target.y+target.height/2))}}finally{if(snapWasOn)snap.click()}};Object.entries(fields).forEach(([key,input])=>input.addEventListener('change',event=>{event.stopImmediatePropagation();applyDimension(key)},true))})();
 </script>
 <script>
-(()=>{const settings=document.querySelector('.settings');if(!settings)return;const toggle=document.createElement('button');toggle.className='panel-toggle';toggle.type='button';settings.prepend(toggle);let collapsed=false;try{collapsed=localStorage.getItem('image-cropper-panel-collapsed')==='true'}catch{}const sync=()=>{settings.classList.toggle('panel-collapsed',collapsed);toggle.textContent=collapsed?'←':'→';toggle.setAttribute('aria-label',collapsed?'Expand controls':'Collapse controls')};toggle.onclick=()=>{collapsed=!collapsed;try{localStorage.setItem('image-cropper-panel-collapsed',String(collapsed))}catch{}sync()};sync()})();
+(()=>{const settings=document.querySelector('.settings');if(!settings)return;const toggle=document.createElement('button');toggle.className='panel-toggle';toggle.type='button';settings.prepend(toggle);let collapsed=false;try{collapsed=localStorage.getItem('image-cropper-panel-collapsed')==='true'}catch{}const sync=()=>{let mobile=matchMedia('(max-width:760px)').matches;settings.classList.toggle('panel-collapsed',collapsed);toggle.textContent=mobile?(collapsed?'↑':'↓'):(collapsed?'←':'→');toggle.setAttribute('aria-label',collapsed?'Expand controls':'Collapse controls')};toggle.onclick=()=>{collapsed=!collapsed;try{localStorage.setItem('image-cropper-panel-collapsed',String(collapsed))}catch{}sync()};addEventListener('resize',sync);sync()})();
 </script>
 <script>
 (()=>{const panel=document.querySelector('.coordinate-setting');if(!panel)return;const title=panel.querySelector('.coordinate-title'),toggle=document.createElement('button');toggle.className='coordinate-toggle';toggle.type='button';title.appendChild(toggle);let expanded=false;try{expanded=localStorage.getItem('image-cropper-coordinates-expanded')==='true'}catch{}const sync=()=>{panel.classList.toggle('coordinates-collapsed',!expanded);toggle.textContent=expanded?'−':'+';toggle.setAttribute('aria-label',expanded?'Collapse crop coordinates':'Expand crop coordinates')};toggle.onclick=()=>{expanded=!expanded;try{localStorage.setItem('image-cropper-coordinates-expanded',String(expanded))}catch{}sync()};sync()})();
