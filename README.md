@@ -33,6 +33,7 @@ Images are never sent to a server by this tool. The selected file is read locall
 
 - The browser determines the final WEBP encoding support.
 - GIF files can be imported, but this tool does not preserve animation and cannot export GIF. GIF crops are exported as static PNG, JPG, or WEBP images.
+- Files larger than 20 MB are rejected before loading.
 - JPG exports use a white background for transparent source images.
 - Large images may use significant browser memory while exporting.
 
@@ -73,5 +74,6 @@ Image Cropper 是一个轻量、无依赖的浏览器图片裁切工具。它可
 
 - WEBP 的最终编码能力取决于浏览器支持情况。
 - GIF 可以导入，但不会保留动画，也不能导出为 GIF；GIF 裁切结果会以静态 PNG、JPG 或 WEBP 导出。
+- 超过 20 MB 的文件会在读取前被拒绝。
 - JPG 导出会为透明图片使用白色背景。
 - 超大图片在导出时可能占用较多浏览器内存。
