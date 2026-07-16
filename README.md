@@ -8,7 +8,7 @@ Image Cropper is a small, dependency-free image cropper that runs entirely in th
 
 ## Features
 
-- Open common image formats: JPG, PNG, WEBP, and GIF
+- Open JPG, PNG, WEBP, and GIF files. GIFs are imported as a single static frame; animation is not preserved.
 - Drag the top, right, bottom, or left edge independently
 - Move the crop selection as a whole
 - Zoom the canvas in and out, or return to Fit view
@@ -32,6 +32,7 @@ Images are never sent to a server by this tool. The selected file is read locall
 ## Notes
 
 - The browser determines the final WEBP encoding support.
+- GIF files can be imported, but this tool does not preserve animation and cannot export GIF. GIF crops are exported as static PNG, JPG, or WEBP images.
 - JPG exports use a white background for transparent source images.
 - Large images may use significant browser memory while exporting.
 
@@ -47,7 +48,7 @@ Image Cropper 是一个轻量、无依赖的浏览器图片裁切工具。它可
 
 ## 功能
 
-- 支持 JPG、PNG、WEBP 和 GIF 等常见图片格式
+- 支持导入 JPG、PNG、WEBP 和 GIF。GIF 只按单张静态帧处理，不保留动画。
 - 上、右、下、左四条边可以分别拖拽调整
 - 可以整体移动裁切区域
 - 支持放大、缩小和恢复 Fit 全图视图
@@ -71,5 +72,6 @@ Image Cropper 是一个轻量、无依赖的浏览器图片裁切工具。它可
 ## 说明
 
 - WEBP 的最终编码能力取决于浏览器支持情况。
+- GIF 可以导入，但不会保留动画，也不能导出为 GIF；GIF 裁切结果会以静态 PNG、JPG 或 WEBP 导出。
 - JPG 导出会为透明图片使用白色背景。
 - 超大图片在导出时可能占用较多浏览器内存。
